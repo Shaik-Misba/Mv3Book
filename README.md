@@ -27,7 +27,7 @@
 **MovieBookingValidator.java-->**
  <p><code>
 	 public static void validate(){
-	 <b>if(isvalidCustomerPhoneNo(movieBookDTO.getCustomerPhoneNo())==false){
+	 <b> if(isvalidCustomerPhoneNo(movieBookDTO.getCustomerPhoneNo())==false){
 	 throw new MovieBookingException("Validator.INVALID_CUSTOMER_PHONE_NO");
 	 }
 	 if(isvalidPaymentType(movieBookDTO.getPaymentType()==false){
@@ -52,10 +52,12 @@
  
 **MovieBookingRepository.java**
 <p><code>
-	publid interface MovieBookingRepository <b> extends CrudRepository MovieBooking,Integer </b> 
+	public interface MovieBookingRepository extends CrudRepository <*MovieBooking,Integer*>
 	{
 	@Query("select m from MovieBooking m where m.customerPhoneNo=:customerPhoneNo and m.showDate=:showDate")
-	List<MovieBooking> 
+	List<*MovieBooking*> getBookingDetails(Long customerPhoneNo, LocalDate showDate);
+	List<*MovieBooking*> findByScreenName(String screenName);
+	}
 </code></p>
  
  **MovieBookingServiceImpl.java---->**
@@ -66,18 +68,24 @@ public class MovieBookingServiceImpl implemnts
 {
 	<b>@Autowired</b>
 	private MovieBookingRepository movieBookingRepository;
- 	Public Double calculateBookingmount(Integer noOfSeats,Strong screenName){
-		<b>double bookinfAmount=0.0;
-		if(screenName.equals("Rhombus")){
-		bookingAmount=100.0*noOfSeats;
-		} else if(screenName.equals("Sapphire")){
-		bookingAmount=200.0*noOfseats;
-		}else{
-		booningAmount=300.0*noOfSeats;
-		}
-		return bookingAmount;</b>
-  	}
 	
- }</code></p>
-
+	@Override 
+        public List<MovieBookingDTO> getBookingByScreenName(String screenName) throws MovieBookingException {
+	List<MovieBooking> list= movieBookRepository.findByScreenName(screenName);
+      		if(list.isEmpty()){
+			throw new MovieBookingException("MovieBookingService.NO_BOOKING");
+   		}
+     		List<MovieBookingDTO> dtoList = new ArrayList<>();
+       		for(MovieBooking movieBooking : list){
+	           MovieBookingDTO dto =MovieBookingDTO.prepareDTO(movieBooking);
+	           dtoList.add(dto);
+	        }
+	        return dtoList;
+	 }
  
+ 
+ }
+ </code></p>
+
+** MovieBookingAPI.java-->**
+
