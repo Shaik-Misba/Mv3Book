@@ -1,13 +1,3 @@
-**MovieBookingServiceImpl.java---->**
-
-<p><code><b>@Service(value="movieBookingService")
-@Transactional</b>
-public class MovieBookingServiceImpl implemnts 
-{
-	<b>@Autowired</b>
-	private MovieBookingRepository movieBookingRepository;
- }</code></p>
-
 **DTO-->**
 <p><code>//Below bookingid
 	<b>@NotNull(message="{bookingmovie.moviename.notpresent}")</b>
@@ -29,7 +19,7 @@ public class MovieBookingServiceImpl implemnts
 	@Table(name="movie_booking")</b>
 	public class MovieBooking{
 	<b>	@Id
-		@GeneratedValue(strategy.=GenerationType.IDENTITY)
+		@GeneratedValue(strategy=GenerationType.IDENTITY)
 	</b>    private Integer bookingId;
 	}
 </code></p>
@@ -59,3 +49,35 @@ public class MovieBookingServiceImpl implemnts
 		 return false;</b>
 	 }
  </code></p>
+ 
+**MovieBookingRepository.java**
+<p><code>
+	publid interface MovieBookingRepository <b> extends CrudRepository MovieBooking,Integer </b> 
+	{
+	@Query("select m from MovieBooking m where m.customerPhoneNo=:customerPhoneNo and m.showDate=:showDate")
+	List<MovieBooking> 
+</code></p>
+ 
+ **MovieBookingServiceImpl.java---->**
+
+<p><code><b>@Service(value="movieBookingService")
+@Transactional</b>
+public class MovieBookingServiceImpl implemnts 
+{
+	<b>@Autowired</b>
+	private MovieBookingRepository movieBookingRepository;
+ 	Public Double calculateBookingmount(Integer noOfSeats,Strong screenName){
+		<b>double bookinfAmount=0.0;
+		if(screenName.equals("Rhombus")){
+		bookingAmount=100.0*noOfSeats;
+		} else if(screenName.equals("Sapphire")){
+		bookingAmount=200.0*noOfseats;
+		}else{
+		booningAmount=300.0*noOfSeats;
+		}
+		return bookingAmount;</b>
+  	}
+	
+ }</code></p>
+
+ 
