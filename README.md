@@ -108,3 +108,30 @@ public class MovieBookingServiceImpl implemnts
 		}
   	}
 </code></p>
+
+**ExceptionControl.java**
+<p><code>@RestControllerAdvice
+	public class ExceptionControllerAdvice{
+ 		private static final Log LOGGER = LogFacttory.getLog(ExceptionControllerAdvice.class);
+
+     		@Autowired
+       		private Environment environment;
+
+  		@ExceptionHandler(MovieBookException.class)
+    		public ResponseEntity<ErrorInfo> movieBookingExceptionHandler(){
+      			- - - - - - - -
+	 		- - - - - - - -
+    		}
+
+      		@ExceptionHandler(Exception.class)
+		public ResponseEntity<ErrorInfo> generalExceptionHandler(){
+      			- - - - - - - -
+	 		- - - - - - - -
+    		}  
+      		@ExceptionHandler({MethodArgumentNotValidException.class,ConstraintViolationException.class})
+		public ResponseEntity<ErrorInfo> validatorExceptionHandler(){
+      			- - - - - - - -
+	 		- - - - - - - -
+    		}  	
+      }
+</code></p>
