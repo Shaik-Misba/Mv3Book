@@ -3,7 +3,7 @@
 	<b>@NotNull(message="{bookingmovie.moviename.notpresent}")</b>
 	private String movieName;
 	<b>@NotNull(message="{bookingmovie.screenname.notpresent}")
-	@Pattern(regexp="Sapphire|Turquoise|Rhombus", message=*{bookmovie.screenname.invalid}")</b>
+	@Pattern(regexp="Sapphire|Turquoise|Rhombus", message="{bookmovie.screenname.invalid}")</b>
 	private String screenName;
 	<b>@NotNull(message="{bookingmovie.showdate.notpresent}")
 	@FutureOrPresent(message="{bookmovie.showdate.invalid}")</b>
@@ -88,4 +88,23 @@ public class MovieBookingServiceImpl implemnts
  </code></p>
 
 ** MovieBookingAPI.java-->**
+<p><code>@RestController
+	<b>@RequestMapping(value="api")
+	@Validated</b>
+	public class MovieBookingAPI{
+		<b>@Autowired</b>
+		private MovieBookingService movieBookingService;
 
+  		@PostMapping(value="movie")
+    		public ResponseEntity<MovieBookingDTO> bookMovie(@RequestBody @Valid MovieBookingDTO movieBookingDTO{
+      			MovieBookingDTO dto =movieBookingSerivice.bookMovie(movieBookDTO);
+	 		return new ResponseEntity<>(dto,HttpStatus.CREATED);
+    		}
+
+      		@GetMapping(value="movie/{screenName}")
+		public ResponseEntity<List<MovieBookingDTO>> getBookingByScreenName(@PathVariable String screenName) thows MovieBookingException {
+  			List<MovieBookingDTO> dto = movieBookingService.getBookingByScreenName(screenName);
+     			return new ResponseEntity<>(dto,HttpStatus.OK);
+		}
+  	}
+</code></p>
